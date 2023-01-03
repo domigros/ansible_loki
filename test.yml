@@ -1,0 +1,14 @@
+
+- hosts: apps_loki
+  become: true
+  vars_prompt:
+    - name: "nexus_passwd"
+      prompt: "password to accesse nexus repo?"
+  roles:
+    -  {role: 'apps_loki', tags: 'apps_loki'}
+  run_once: true
+
+- hosts: apps_loki-promtail
+  become: true
+  roles:
+    - {role: 'apps_loki-promtail', tags: 'apps_loki-promtail'}

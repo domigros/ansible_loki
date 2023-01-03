@@ -1,0 +1,4 @@
+---
+# tasks file for apps_loki-promtail
+- include_tasks: install_promtail.yml
+

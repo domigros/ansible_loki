@@ -1,0 +1,15 @@
+[Unit]
+Description=Promtail Loki
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User={{ loki_promtail_userId }}
+Group={{ loki_promtail_groupId }}
+ExecStart={{ loki_promtail_exec_command }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

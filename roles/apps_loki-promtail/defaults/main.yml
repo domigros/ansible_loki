@@ -1,0 +1,21 @@
+---
+# defaults file for  rsyslog_exporter
+loki_promtail_bin_dir: "/opt/loki"
+
+#loki_proxy_url: "https://xxxxx:xxxxx@nexus.exterieur.dassault-aviation.com:8446/repository/prometheus-packagedelivery/loki"
+loki_proxy_url: "http://192.168.1.25:8808/"
+
+loki_promtail_port: 9081
+
+loki_promtail_userId: "prometheus"
+loki_promtail_groupId: "prometheus"
+
+loki_promtail_exec_command:  "{{ loki_promtail_bin_dir }}/promtail-linux-amd64 -config.file=/etc/promtail/promtail-local-config.yaml"
+loki_promtail_archi:  "linux-arm64"
+loki_promtail_version:  "2.6.1"
+loki_promtail_appli:  "promtail"
+loki_promtail_extraconf: ""
+
+loki_host: dg-ansible
+loki_port: 3100
+loki_tenant: fake

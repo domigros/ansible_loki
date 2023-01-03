@@ -1,0 +1,4 @@
+[apps_loki]
+
+[apps_loki-promtail]
+dg-openwrt

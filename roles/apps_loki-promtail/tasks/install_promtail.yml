@@ -1,0 +1,64 @@
+---
+- name: Creating {{ loki_promtail_groupId }} user group
+  group: 
+    name: "{{ loki_promtail_groupId }}"
+
+- name: Creating {{ loki_promtail_target_user }} user
+  user:
+    name: "{{ loki_promtail_userId }}"
+    group: "{{ loki_promtail_groupId }}"
+    system: yes
+    shell: "/sbin/nologin"
+    comment: "{{ loki_promtail_userId }} nologin User"
+    createhome: "no"
+    state: present
+
+- name: Ensure skeleton paths
+  file:
+    dest: "{{ item }}"
+    owner: "{{ loki_promtail_userId }}"
+    group: "{{ loki_promtail_groupId }}"
+    state: directory
+  with_items:
+    - "{{ loki_promtail_bin_dir }}"
+    - "/etc/promtail/"
+    - "/local/loki/data/"
+    - "/tmp/fragments/"
+
+- name: stat /tmp/promtail-linux-{{ loki_promtail_archi}}.zip
+  stat: path=/tmp/promtail-linux-{{ loki_promtail_archi}}.zip
+  register: promtail_stat
+
+- name: Install Loki
+  unarchive:
+    src: "{{ loki_proxy_url }}/loki/{{ loki_promtail_version }}/promtail-{{ loki_promtail_version }}.{{ loki_promtail_archi }}.zip"
+    dest: "{{ loki_promtail_bin_dir }}"
+    owner: "{{ loki_promtail_userId }}"
+    group: "{{ loki_promtail_groupId }}"
+    remote_src: yes
+
+- name: Copy systemd init file
+  template:
+    src: init.service.j2
+    dest: "/etc/systemd/system/promtail.service"
+  notify: 
+    - systemd_reload
+
+- name: Copy the promtail config file
+  template:
+    src: promtail-local-config.yaml.j2
+    dest: "/etc/promtail/promtail-local-config.yaml"
+    owner: "{{ loki_promtail_userId }}"
+    group: "{{ loki_promtail_groupId }}"
+    mode: 0644
+
+- name: Add extra conf
+  blockinfile:
+    dest: "/etc/promtail/promtail-local-config.yaml"
+    block: "{{ loki_promtail_extraconf }}"
+    #block: "{{ lookup('file', '/tmp/extraconf.yaml') }}"
+    marker: "# <!-- {mark} Application {{ loki_promtail_appli }} -->"
+  notify: Restart promtail
+  with_items: "promtail"
+
+

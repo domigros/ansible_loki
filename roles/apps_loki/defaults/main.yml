@@ -1,0 +1,14 @@
+---
+# defaults file for loki
+loki_db_dir: "/local/loki/data/db"
+loki_bin_dir: "/opt/loki"
+#loki_proxy_url: "https://SVNEXMO:{{ nexus_passwd }}@nexus.exterieur.dassault-aviation.com:8446/repository/prometheus-packagedelivery/loki"
+loki_proxy_url: "http://192.168.1.25:8808/"
+
+
+loki_serviceName: "loki"
+loki_userId: "prometheus"
+loki_groupId: "prometheus"
+loki_exec_command: "{{ loki_bin_dir }}/loki-{{ loki_archi }} -config.file=/etc/loki/loki-local-config.yaml --ingester.wal-dir={{ loki_db_dir }}/wal"
+loki_version: "2.6.1"
+loki_archi: "linux-arm64"

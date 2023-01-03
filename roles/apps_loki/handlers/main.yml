@@ -1,0 +1,11 @@
+---
+# handlers file for loki
+- name: Restart the {{ loki_serviceName }} service
+  service:
+    name: "{{ loki_serviceName }}"
+    state: restarted
+  listen: event_restart_loki
+
+- name: Reload systemd
+  command: systemctl daemon-reload
+  listen: systemd_reload

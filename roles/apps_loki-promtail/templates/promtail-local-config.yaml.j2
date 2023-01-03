@@ -1,0 +1,11 @@
+server:
+  http_listen_port: {{ loki_promtail_port }}
+  grpc_listen_port: 0
+
+positions:
+  filename: /local/loki/data/positions.yaml # This location needs to be wr
+
+clients:
+  - url: http://{{ loki_host }}:{{ loki_port }}/loki/api/v1/push
+
+scrape_configs:

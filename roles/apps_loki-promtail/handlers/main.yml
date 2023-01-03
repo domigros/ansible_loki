@@ -1,0 +1,12 @@
+---
+# handlers file for cadvisor
+- name: Reload systemd
+  command: systemctl daemon-reload
+  listen: systemd_reload
+
+
+- name: Restart promtail
+  service:
+    name: "promtail"
+    state: restarted
+    enabled: yes

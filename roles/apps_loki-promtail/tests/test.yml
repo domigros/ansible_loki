@@ -1,0 +1,7 @@
+- hosts: apps_loki-promtail
+  become: yes
+  vars_prompt:
+    - name: "nexus_passwd"
+      prompt: "password to accesse nexus repo (login: SVNEXMO)?"
+  roles:
+    -  {role: 'apps_loki-promtail', tags: 'apps_loki-promtail'}

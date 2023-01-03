@@ -1,0 +1,4 @@
+---
+# tasks file for loki
+- include_tasks: install_loki.yml
+
