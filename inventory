@@ -1,4 +1,2 @@
-[apps_loki]
-
 [apps_loki-promtail]
-dg-openwrt
+dg-ansible
